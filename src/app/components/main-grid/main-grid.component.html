@@ -1,0 +1,19 @@
+<div class="grid-div">
+    <input placeholder="Wyszukaj..." [(ngModel)]="searchTerm" type="text" autofocus>
+
+    <main>
+        @if (searchTerm() !== "") {
+            @if (filterItems().length == 0) {
+                <h2>Brak wyników wyszukiwania :(</h2>
+            }
+            @for (item of filterItems(); track item.name) {
+                <app-grid-item [gridItem]="item"/>
+            }
+        } @else {
+            @for (item of gridItems(); track item.name) {
+                <app-grid-item [gridItem]="item"/>
+            }
+        }
+    </main>
+
+</div>
