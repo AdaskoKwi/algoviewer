@@ -1,11 +1,14 @@
 import {Component, Input} from '@angular/core';
 import {NgOptimizedImage} from '@angular/common';
 import {GridItem} from '../../model/grid-item/GridItem.type';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 
 @Component({
     selector: 'app-grid-item',
     imports: [
-        NgOptimizedImage
+        NgOptimizedImage,
+        RouterLink,
+        RouterLinkActive
     ],
     standalone: true,
     templateUrl: './grid-item.component.html',

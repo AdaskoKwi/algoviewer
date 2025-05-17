@@ -1,5 +1,4 @@
 .header-div {
-
 }
 
 .header-div header {
@@ -9,7 +8,7 @@
     font-size: 1.3em;
     width: auto;
     height: 80px;
-    padding-top: clamp(10px, 8%, 1em);
+    padding-top: clamp(5px, 5%, .5em);
     padding-left: clamp(10px, 8%, 1.2em);
 }
 

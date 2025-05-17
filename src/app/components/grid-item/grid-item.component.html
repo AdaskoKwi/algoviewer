@@ -1,8 +1,8 @@
-<div class="grid-item-div">
+<div routerLink="/view" routerLinkActive="active" class="grid-item-div">
     <div class="image-div">
-        <img ngSrc="/placeholder.webp" alt="grid-image" height="683" width="1024">
+        <img ngSrc="{{gridItem.imagePath}}" alt="{{gridItem.name}}" height="683" width="1024">
     </div>
     <div class="info-div">
-        <p class="name">Name</p>
+        <p class="name">{{gridItem.name}}</p>
     </div>
 </div>
