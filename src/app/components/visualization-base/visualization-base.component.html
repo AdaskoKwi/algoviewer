@@ -4,13 +4,8 @@
 
     </main>
     <div class="buttons">
-        <button (click)="addNode(linkedList); renderLinkedList(linkedList, visualizationContainer)">Add Node</button>
-        <button (click)="reverseList(linkedList); renderLinkedList(linkedList, visualizationContainer)">Reverse</button>
-        <button>Test button 1</button>
-        <button>Test button 1</button>
-        <button>Test button 1</button>
-        <button>Test button 1</button>
-        <button>Test button 1</button>
-        <button>Test button 1</button>
+        @for (button of currentModule.buttons; track $index) {
+            <button (click)="button.action(); currentModule.render(visualizationContainer)">{{button.label}}</button>
+        }
     </div>
 </div>
