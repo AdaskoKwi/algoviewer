@@ -1,4 +1,8 @@
 import { Routes } from '@angular/router';
-import {AppComponent} from './app.component';
+import {ItemPageComponent} from './pages/item-page/item-page.component';
+import {MainGridComponent} from './components/main-grid/main-grid.component';
 
-export const routes: Routes = [{path: '', component: AppComponent}];
+export const routes: Routes = [
+    {path: '', component: MainGridComponent},
+    {path: 'view/:name', component: ItemPageComponent}
+];

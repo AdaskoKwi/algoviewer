@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {HeaderComponent} from './components/header/header.component';
 import {MainGridComponent} from './components/main-grid/main-grid.component';
 
@@ -11,5 +11,5 @@ import {MainGridComponent} from './components/main-grid/main-grid.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-
+    title = "Algoviewer";
 }
