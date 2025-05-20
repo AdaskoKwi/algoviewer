@@ -4,5 +4,5 @@ import {MainGridComponent} from './components/main-grid/main-grid.component';
 
 export const routes: Routes = [
     {path: '', component: MainGridComponent},
-    {path: 'view', component: ItemPageComponent}
+    {path: 'view/:name', component: ItemPageComponent}
 ];

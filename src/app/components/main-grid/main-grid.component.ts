@@ -18,12 +18,12 @@ export class MainGridComponent {
     gridItems = signal<GridItem[]>([
         {imagePath: "/Binary_search_tree.svg.png", name: "BST Tree"},
         {imagePath: "/dijkstra.png", name: "Dijkstra's Algorithm"},
-        {imagePath: "/Depth-First-Search.gif", name: "DFS"},
+        {imagePath: "/Depth-First-Search.gif", name: "Depth First Search"},
         {imagePath: "/Lifo_stack.png", name: "Stack"},
         {imagePath: "/Max-Heap.svg", name: "Heap"},
         {imagePath: "/Singly-linked-list.svg", name: "Linked List"},
         {imagePath: "/Sorting_quicksort_anim.gif", name: "QuickSort"},
-        {imagePath: "/Animated_BFS.gif", name: "BFS"}
+        {imagePath: "/Animated_BFS.gif", name: "Breadth First Search"}
     ]);
 
     filterItems():GridItem[] {

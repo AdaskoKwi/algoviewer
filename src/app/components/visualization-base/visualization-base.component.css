@@ -1,0 +1,109 @@
+.visualization-base-div {
+    display: flex;
+    flex-direction: column;
+    background: hsl(0, 0%, 40%);
+    border: none;
+    border-radius: 1em;
+    margin: 1em 6em 0 6em;
+}
+
+.visualization-base-div main {
+    height: 60vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.visualization-base-div main svg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.visualization-base-div h2 {
+    width: 100%;
+    font-size: 2em;
+    text-align: center;
+}
+
+.visualization-base-div .buttons {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    column-gap: 1em;
+    margin: .5em 0 1em 0;
+    padding-left: 1em;
+}
+
+.visualization-base-div .buttons button {
+    background: whitesmoke;
+    border: none;
+    border-radius: .8em;
+    width: 7em;
+    height: 3em;
+    padding: .2em .5em .2em .5em;
+    transition: .2s ease;
+}
+
+.visualization-base-div .buttons button:hover {
+    cursor: pointer;
+    background: hsl(0, 0%, 80%);
+    transition: .2s ease;
+}
+
+.visualization-base-div .buttons button:active {
+    background: hsl(0, 0%, 70%);
+    transition: .1s ease-out;
+}
+
+@media (max-width: 600px) {
+    .visualization-base-div {
+        display: flex;
+        flex-direction: column;
+        background: hsl(0, 0%, 40%);
+        border: none;
+        border-radius: 1em;
+        margin: .5em 0 0 0;
+    }
+
+    .visualization-base-div main {
+        height: 55vh;
+        width: 100%;
+    }
+
+    .visualization-base-div .buttons {
+        height: auto;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        justify-content: space-evenly;
+        padding: 0 .5em 0 .5em;
+        grid-gap: 1em 0;
+    }
+
+    .visualization-base-div .buttons button {
+        background: whitesmoke;
+        border: none;
+        border-radius: .7em;
+        width: 5em;
+        height: 3em;
+        padding: .2em .5em .2em .5em;
+        transition: .2s ease;
+    }
+
+    .visualization-base-div .buttons button:hover {
+        cursor: pointer;
+        background: hsl(0, 0%, 96%);
+        transition: .2s ease;
+    }
+
+    .visualization-base-div .buttons button:active {
+        background: hsl(0, 0%, 70%);
+        transition: .1s ease-out;
+    }
+}

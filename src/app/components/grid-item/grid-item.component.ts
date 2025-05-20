@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {NgOptimizedImage} from '@angular/common';
 import {GridItem} from '../../model/grid-item/GridItem.type';
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterLinkActive} from '@angular/router';
 
 @Component({
     selector: 'app-grid-item',
@@ -16,6 +16,5 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 })
 export class GridItemComponent {
     @Input() gridItem!: GridItem
-
 
 }

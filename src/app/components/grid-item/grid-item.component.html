@@ -1,4 +1,4 @@
-<div routerLink="/view" routerLinkActive="active" class="grid-item-div">
+<div [routerLink]="['/view', gridItem.name]" routerLinkActive="active" class="grid-item-div">
     <div class="image-div">
         <img ngSrc="{{gridItem.imagePath}}" alt="{{gridItem.name}}" height="683" width="1024">
     </div>
