@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {addNode, listNode, renderLinkedList, reverseList} from '../../visualizations/linkedList';
+import {DSAModule} from '../../model/dsa-module/DSAModule';
+import {LinkedListModule} from '../../visualizations/linkedList';
 
 @Component({
     selector: 'app-visualization-base',
@@ -12,11 +13,10 @@ import {addNode, listNode, renderLinkedList, reverseList} from '../../visualizat
 export class VisualizationBaseComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('visualizationContainer', { static: true }) visualizationContainer!: ElementRef<SVGSVGElement>;
     @Input() visualizationTitle!: string;
+    currentModule! :DSAModule;
 
-    linkedList: listNode[] = [
-        {id: 1, value: 10},
-        {id: 2, value: 20},
-        {id: 3, value: 30},
+    dsaModules: DSAModule[] = [
+        new LinkedListModule()
     ];
 
     constructor(private elementRef: ElementRef, private route: ActivatedRoute) {
@@ -27,16 +27,13 @@ export class VisualizationBaseComponent implements OnInit, OnDestroy, AfterViewI
         this.route.paramMap.subscribe(params => {
             this.visualizationTitle = params.get('name')!;
         })
+        this.currentModule = this.dsaModules.find(module => module.name === this.visualizationTitle)!;
     }
 
     ngOnDestroy() {
     }
 
     ngAfterViewInit() {
-        renderLinkedList(this.linkedList, this.visualizationContainer.nativeElement)
+        this.currentModule.render(this.visualizationContainer.nativeElement);
     }
-
-    protected readonly addNode = addNode;
-    protected readonly renderLinkedList = renderLinkedList;
-    protected readonly reverseList = reverseList;
 }
