@@ -2,6 +2,8 @@ import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChil
 import {ActivatedRoute} from '@angular/router';
 import {DSAModule} from '../../model/dsa-module/DSAModule';
 import {LinkedListModule} from '../../visualizations/linkedList';
+import {StackModule} from '../../visualizations/stack';
+import {HeapModule} from '../../visualizations/heap';
 
 @Component({
     selector: 'app-visualization-base',
@@ -16,7 +18,9 @@ export class VisualizationBaseComponent implements OnInit, OnDestroy, AfterViewI
     currentModule! :DSAModule;
 
     dsaModules: DSAModule[] = [
-        new LinkedListModule()
+        new LinkedListModule(),
+        new StackModule(),
+        new HeapModule(15),
     ];
 
     constructor(private elementRef: ElementRef, private route: ActivatedRoute) {

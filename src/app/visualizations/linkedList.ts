@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import {DSAButton, DSAModule} from '../model/dsa-module/DSAModule';
 
-export interface listNode {
+export interface ListNode {
     id: number,
     value: number,
 }
@@ -10,7 +10,7 @@ export class LinkedListModule implements DSAModule {
     constructor() {
     }
 
-    linkedList: listNode[] = [
+    linkedList: ListNode[] = [
         {id: 1, value: 10},
         {id: 2, value: 20},
         {id: 3, value: 30},
@@ -26,8 +26,6 @@ export class LinkedListModule implements DSAModule {
 
     render = (container: Element): void => {
         d3.select(container).select('svg').remove();
-        const t = d3.transition()
-            .duration(750);
 
         const nodeWidth: number = 120;
         const nodeHeight: number = 60;
@@ -99,8 +97,8 @@ export class LinkedListModule implements DSAModule {
     addNode(): any {
         let length = this.linkedList.length;
         if (length < 8 && length > 0) {
-            const lastNode: listNode = this.linkedList.slice(-1)[0];
-            const newNode: listNode = {
+            const lastNode: ListNode = this.linkedList.slice(-1)[0];
+            const newNode: ListNode = {
                 id: lastNode.id + 1,
                 value: lastNode.value + 10
             }
@@ -108,7 +106,7 @@ export class LinkedListModule implements DSAModule {
             this.linkedList.push(newNode);
         }
         if (length == 0 ) {
-            const newNode: listNode = {
+            const newNode: ListNode = {
                 id: 1,
                 value: 10
             }
