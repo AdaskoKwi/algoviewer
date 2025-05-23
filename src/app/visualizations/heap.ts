@@ -6,33 +6,41 @@ export interface HeapNode {
 }
 
 export class HeapModule implements DSAModule {
-    constructor(maxSize: number) {
+    constructor(maxSize: number, container: Element) {
         this.maxSize = maxSize;
         this.size = 0;
+
+        for (let i = 0; i < 3; i++) {
+            this.initializeHeap();
+        }
+
+        this.container = container;
     }
 
     heap: HeapNode[] = [];
 
-    name: string = 'Heap';
+    name: string = 'Max Heap';
     maxSize: number;
     size: number
+    container: Element;
 
     buttons: DSAButton[] = [
         {label: 'Insert Random', action: this.insertRand.bind(this)},
+        {label: 'Remove Last', action: this.removeLastNode.bind(this)},
         {label: 'Clear', action: this.clear.bind(this)}
     ];
 
-    render = (container: Element): void => {
-        d3.select(container).select('svg').remove();
+    render = (): void => {
+        d3.select(this.container).select('svg').remove();
 
         const nodeWidth: number = 40;
         const nodeHeight: number = 40;
-        const horizontalSpacing: number = 80;
+        const horizontalSpacing: number = 50;
         const verticalSpacing: number = 60;
-        const totalWidth: number = container.clientWidth;
-        const totalHeight: number = container.clientHeight;
+        const totalWidth: number = this.container.clientWidth;
+        const totalHeight: number = this.container.clientHeight;
 
-        const svg = d3.select(container)
+        const svg = d3.select(this.container)
             .append('svg')
             .attr('width', totalWidth)
             .attr('height', totalHeight)
@@ -129,7 +137,7 @@ export class HeapModule implements DSAModule {
         [this.heap[first], this.heap[second]] = [this.heap[second], this.heap[first]];
     }
 
-    insertRand(): void {
+    private initializeHeap() {
         if (this.size < this.maxSize) {
             const newNode: HeapNode = {value: this.getRandomInt()};
             this.heap[this.size] = newNode;
@@ -137,16 +145,20 @@ export class HeapModule implements DSAModule {
             let current = this.size;
 
             while (current > 0) {
-                const parentIdx = this.parent(current);
-                if (this.heap[current].value <= this.heap[parentIdx].value) break;
+                const parent: number = this.parent(current);
+                if (this.heap[current].value <= this.heap[parent].value) break;
 
-                this.swap(current, parentIdx);
-                current = parentIdx;
+                this.swap(current, parent);
+                current = parent;
             }
 
             this.size++;
         }
+    }
 
+    insertRand(): void {
+        this.initializeHeap();
+        this.render();
     }
 
     clear(): void {
@@ -154,6 +166,12 @@ export class HeapModule implements DSAModule {
             this.heap.pop();
             this.size = this.heap.length;
         }
+        this.render();
     }
 
+    removeLastNode(): void {
+        this.heap.pop();
+        this.size = this.heap.length;
+        this.render();
+    }
 }

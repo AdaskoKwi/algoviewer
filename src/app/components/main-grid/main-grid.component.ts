@@ -20,7 +20,7 @@ export class MainGridComponent {
         {imagePath: "/dijkstra.png", name: "Dijkstra's Algorithm"},
         {imagePath: "/Depth-First-Search.gif", name: "Depth First Search"},
         {imagePath: "/Lifo_stack.png", name: "Stack"},
-        {imagePath: "/Max-Heap.svg", name: "Heap"},
+        {imagePath: "/Max-Heap.svg", name: "Max Heap"},
         {imagePath: "/Singly-linked-list.svg", name: "Linked List"},
         {imagePath: "/Sorting_quicksort_anim.gif", name: "QuickSort"},
         {imagePath: "/Animated_BFS.gif", name: "Breadth First Search"}

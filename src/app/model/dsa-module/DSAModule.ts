@@ -1,6 +1,7 @@
 export type DSAModule = {
+    container: Element
     name: string,
-    render(container: Element): void,
+    render(): void,
     buttons: DSAButton[]
 }
 
