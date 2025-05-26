@@ -30,13 +30,30 @@ export class HeapModule implements DSAModule {
         {label: 'Clear', action: this.clear.bind(this)}
     ];
 
+    calculatePosition = (index: number) => {
+        const nodeWidth: number = 40;
+        const nodeHeight: number = 40;
+        const horizontalSpacing: number = 50;
+        const verticalSpacing: number = 60;
+        const totalWidth: number = this.container.clientWidth;
+
+        const depth: number = Math.floor(Math.log2(index + 1));
+        const levelNodes: number = 2 ** depth;
+        const levelWidth: number = levelNodes * (nodeWidth + horizontalSpacing);
+        const xOffset: number = (totalWidth - levelWidth) / 2;
+
+        const positionInLevel: number = index + 1 - 2 ** depth;
+        const x: number = xOffset + positionInLevel * (nodeWidth + horizontalSpacing);
+        const y: number = 20 + depth * (nodeHeight + verticalSpacing);
+
+        return { x, y };
+};
+
     render = (): void => {
         d3.select(this.container).select('svg').remove();
 
         const nodeWidth: number = 40;
         const nodeHeight: number = 40;
-        const horizontalSpacing: number = 50;
-        const verticalSpacing: number = 60;
         const totalWidth: number = this.container.clientWidth;
         const totalHeight: number = this.container.clientHeight;
 
@@ -47,26 +64,13 @@ export class HeapModule implements DSAModule {
             .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
             .attr('preserveAspectRatio', 'xMinYMin meet')
 
-        const calculatePosition = (index: number) => {
-            const depth: number = Math.floor(Math.log2(index + 1));
-            const levelNodes: number = 2 ** depth;
-            const levelWidth: number = levelNodes * (nodeWidth + horizontalSpacing);
-            const xOffset: number = (totalWidth - levelWidth) / 2;
-
-            const positionInLevel: number = index + 1 - 2 ** depth;
-            const x: number = xOffset + positionInLevel * (nodeWidth + horizontalSpacing);
-            const y: number = 20 + depth * (nodeHeight + verticalSpacing);
-
-            return { x, y };
-        };
-
         for (let i = 0; i < this.size; i++) {
             if (this.heap[i]) {
-                const parentPos = calculatePosition(i);
+                const parentPos = this.calculatePosition(i);
 
                 const leftChild: number = this.leftChild(i);
                 if (leftChild < this.size && this.heap[leftChild]) {
-                    const childPos = calculatePosition(leftChild);
+                    const childPos = this.calculatePosition(leftChild);
                     svg.append('line')
                         .attr('x1', parentPos.x + nodeWidth/2)
                         .attr('y1', parentPos.y + nodeHeight)
@@ -78,7 +82,7 @@ export class HeapModule implements DSAModule {
 
                 const rightChild: number = this.rightChild(i);
                 if (rightChild < this.size && this.heap[rightChild]) {
-                    const childPos = calculatePosition(rightChild);
+                    const childPos = this.calculatePosition(rightChild);
                     svg.append('line')
                         .attr('x1', parentPos.x + nodeWidth/2)
                         .attr('y1', parentPos.y + nodeHeight)
@@ -95,7 +99,7 @@ export class HeapModule implements DSAModule {
             .enter()
             .append('g')
             .attr('transform', (d, i) => {
-                const pos = calculatePosition(i);
+                const pos = this.calculatePosition(i);
                 return `translate(${pos.x},${pos.y})`;
             });
 
@@ -156,9 +160,114 @@ export class HeapModule implements DSAModule {
         }
     }
 
+    private renderNewNode(): void {
+        const nodeWidth: number = 40;
+        const nodeHeight: number = 40;
+        const duration = 300;
+        const newNode: HeapNode = this.heap[this.heap.length - 1];
+
+        const node = d3.select(this.container).select('svg')
+            .append('g')
+            .attr('transform', (d, i) => {
+                const pos = this.calculatePosition(this.heap.length - 1);
+                return `translate(${pos.x},${pos.y})`;
+            });
+
+        node.append('rect')
+            .attr('width', nodeWidth)
+            .attr('height', nodeHeight)
+            .attr('fill', 'whitesmoke')
+            .attr('stroke', 'hsl(0, 0%, 25%)')
+            .attr('stroke-width', 2)
+            .attr('rx', 5)
+            .attr('transform', `
+                translate(${nodeWidth/2},${nodeHeight/2})
+                scale(0)
+                translate(${-(nodeWidth/2)},${-(nodeHeight/2)})
+                `)
+            .transition()
+            .duration(duration)
+            .attr('transform', 'scale(1)')
+            .transition()
+            .duration(100);
+
+        node.append('text')
+            .attr('x', nodeWidth/2)
+            .attr('y', nodeHeight/2)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'middle')
+            .style('font-family', 'Poppins')
+            .style('font-size', '1em')
+            .text(d => newNode.value)
+            .attr('transform', `
+                translate(${nodeWidth/2},${nodeHeight/2})
+                scale(0)
+                translate(${-(nodeWidth/2)},${-(nodeHeight/2)})
+                `)
+            .transition()
+            .duration(duration)
+            .attr('transform', 'scale(1)')
+            .transition()
+            .duration(100);
+    }
+
+    private renderDeleteNode(deletingNode: HeapNode) {
+        const nodeWidth: number = 40;
+        const nodeHeight: number = 40;
+        const duration = 300;
+
+        const node = d3.select(this.container).select('svg')
+            .append('g')
+            .attr('transform', (d, i) => {
+                const pos = this.calculatePosition(this.heap.length);
+                return `translate(${pos.x},${pos.y})`;
+            });
+
+        node.append('rect')
+            .attr('width', nodeWidth)
+            .attr('height', nodeHeight)
+            .attr('fill', 'whitesmoke')
+            .attr('stroke', 'hsl(0, 0%, 25%)')
+            .attr('stroke-width', 2)
+            .attr('rx', 5)
+            .attr('transform', 'scale(1)')
+            .transition()
+            .duration(duration)
+            .attr('transform', `
+                translate(${nodeWidth/2},${nodeHeight/2})
+                scale(0)
+                translate(${-(nodeWidth/2)},${-(nodeHeight/2)})
+                `)
+            .transition()
+            .duration(100);
+
+        node.append('text')
+            .attr('x', nodeWidth/2)
+            .attr('y', nodeHeight/2)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'middle')
+            .style('font-family', 'Poppins')
+            .style('font-size', '1em')
+            .text(d => deletingNode.value)
+            .attr('transform', 'scale(1)')
+            .transition()
+            .duration(duration)
+            .attr('transform', `
+                translate(${nodeWidth/2},${nodeHeight/2})
+                scale(0)
+                translate(${-(nodeWidth/2)},${-(nodeHeight/2)})
+                `)
+            .transition()
+            .duration(100);
+    }
+
     insertRand(): void {
         this.initializeHeap();
-        this.render();
+        this.renderNewNode();
+
+        setTimeout(() => {
+            this.render();
+        }, 300);
     }
 
     clear(): void {
@@ -170,8 +279,10 @@ export class HeapModule implements DSAModule {
     }
 
     removeLastNode(): void {
-        this.heap.pop();
+        const deletingNode: HeapNode = this.heap.pop()!;
         this.size = this.heap.length;
+
         this.render();
+        this.renderDeleteNode(deletingNode);
     }
 }
