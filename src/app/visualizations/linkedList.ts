@@ -1,6 +1,5 @@
 import * as d3 from "d3";
 import {DSAButton, DSAModule} from '../model/dsa-module/DSAModule';
-import {Selection} from 'd3';
 
 export interface ListNode {
     id: number,
@@ -8,7 +7,6 @@ export interface ListNode {
 }
 
 export class LinkedListModule implements DSAModule {
-    svg!: Selection<SVGSVGElement, unknown, null, unknown>;
     constructor(container: Element) {
         this.container = container;
     }
@@ -39,14 +37,14 @@ export class LinkedListModule implements DSAModule {
         const totalHeight: number = this.container.clientHeight
         const leftMargin: number = 50;
 
-        this.svg = d3.select(this.container)
+        const svg = d3.select(this.container)
             .append('svg')
             .attr('width', totalWidth)
             .attr('height', this.container.clientHeight)
             .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
             .attr('preserveAspectRatio', 'xMidYMid meet');
 
-        this.svg.append('defs').append('marker')
+        svg.append('defs').append('marker')
             .attr('id', 'arrow')
             .attr('viewBox', `0 0 10 10`)
             .attr('refX', 10)
@@ -58,7 +56,7 @@ export class LinkedListModule implements DSAModule {
             .attr('d', 'M 0 0 L 10 5 L 0 10 z')
             .attr('fill', 'hsl(0, 0%, 25%)')
 
-        this.svg.selectAll('rect')
+        svg.selectAll('rect')
             .data(this.linkedList)
             .enter()
             .append('rect')
@@ -70,7 +68,7 @@ export class LinkedListModule implements DSAModule {
             .attr('stroke', 'hsl(0, 0%, 25%)')
             .attr('stroke-width', 2);
 
-        this.svg.selectAll('text')
+        svg.selectAll('text')
             .data(this.linkedList)
             .enter()
             .append('text')
@@ -90,7 +88,7 @@ export class LinkedListModule implements DSAModule {
             const x2: number = (i+1) * spacing + 10 + leftMargin;
             const y2: number = y1;
 
-            this.svg.append('line')
+            svg.append('line')
                 .attr('x1', x1)
                 .attr('y1', y1)
                 .attr('x2', x2)

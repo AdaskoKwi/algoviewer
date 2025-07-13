@@ -35,7 +35,6 @@ export class VisualizationBaseComponent implements OnInit, OnDestroy, AfterViewI
                 new StackModule(element),
                 new HeapModule(15, element),
                 new QuickSortModule(20, element),
-                new TreeBSTModule(15, element)
             ];
             this.currentModule = this.dsaModules.find(module => module.name === this.visualizationTitle)!;
 

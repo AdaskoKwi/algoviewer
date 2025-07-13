@@ -1,4 +1,11 @@
 .item-page-div {
     margin: 0 1em 0 1em;
-    height: 100%;
+    height: 83.5vh;
+}
+
+@media (max-width: 600px) {
+    .item-page-div {
+        margin: 0 1em 0 1em;
+        height: 86vh;
+    }
 }

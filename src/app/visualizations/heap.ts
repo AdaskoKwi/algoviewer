@@ -72,9 +72,9 @@ export class HeapModule implements DSAModule {
                 if (leftChild < this.size && this.heap[leftChild]) {
                     const childPos = this.calculatePosition(leftChild);
                     svg.append('line')
-                        .attr('x1', parentPos.x + nodeWidth/2)
+                        .attr('x1', parentPos.x + nodeWidth)
                         .attr('y1', parentPos.y + nodeHeight)
-                        .attr('x2', childPos.x + nodeWidth/2)
+                        .attr('x2', childPos.x + nodeWidth)
                         .attr('y2', childPos.y)
                         .attr('stroke', 'black')
                         .attr('stroke-width', 2);
@@ -84,9 +84,9 @@ export class HeapModule implements DSAModule {
                 if (rightChild < this.size && this.heap[rightChild]) {
                     const childPos = this.calculatePosition(rightChild);
                     svg.append('line')
-                        .attr('x1', parentPos.x + nodeWidth/2)
+                        .attr('x1', parentPos.x + nodeWidth)
                         .attr('y1', parentPos.y + nodeHeight)
-                        .attr('x2', childPos.x + nodeWidth/2)
+                        .attr('x2', childPos.x + nodeWidth)
                         .attr('y2', childPos.y)
                         .attr('stroke', 'black')
                         .attr('stroke-width', 2);
@@ -100,7 +100,7 @@ export class HeapModule implements DSAModule {
             .append('g')
             .attr('transform', (d, i) => {
                 const pos = this.calculatePosition(i);
-                return `translate(${pos.x},${pos.y})`;
+                return `translate(${pos.x + nodeWidth / 2},${pos.y})`;
             });
 
         nodes.append('rect')
@@ -170,13 +170,13 @@ export class HeapModule implements DSAModule {
             .append('g')
             .attr('transform', (d, i) => {
                 const pos = this.calculatePosition(this.heap.length - 1);
-                return `translate(${pos.x},${pos.y})`;
+                return `translate(${pos.x + nodeWidth / 2},${pos.y})`;
             });
 
         node.append('rect')
             .attr('width', nodeWidth)
             .attr('height', nodeHeight)
-            .attr('fill', 'whitesmoke')
+            .attr('fill', 'green')
             .attr('stroke', 'hsl(0, 0%, 25%)')
             .attr('stroke-width', 2)
             .attr('rx', 5)
@@ -226,7 +226,7 @@ export class HeapModule implements DSAModule {
         node.append('rect')
             .attr('width', nodeWidth)
             .attr('height', nodeHeight)
-            .attr('fill', 'whitesmoke')
+            .attr('fill', 'red')
             .attr('stroke', 'hsl(0, 0%, 25%)')
             .attr('stroke-width', 2)
             .attr('rx', 5)
