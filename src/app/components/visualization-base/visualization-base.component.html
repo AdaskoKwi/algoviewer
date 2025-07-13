@@ -5,7 +5,7 @@
     </main>
     <div class="buttons">
         @for (button of currentModule.buttons; track $index) {
-            <button (click)="button.action(); currentModule.render(visualizationContainer)">{{button.label}}</button>
+            <button (click)="button.action()">{{button.label}}</button>
         }
     </div>
 </div>

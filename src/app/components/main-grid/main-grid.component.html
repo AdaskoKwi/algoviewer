@@ -10,7 +10,7 @@
                 <app-grid-item [gridItem]="item"/>
             }
         } @else {
-            @for (item of gridItems(); track item.name) {
+            @for (item of gridItems; track item.name) {
                 <app-grid-item [gridItem]="item"/>
             }
         }

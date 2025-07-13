@@ -1,16 +1,17 @@
 import * as d3 from "d3";
 import {DSAButton, DSAModule} from '../model/dsa-module/DSAModule';
 
-export interface listNode {
+export interface ListNode {
     id: number,
     value: number,
 }
 
 export class LinkedListModule implements DSAModule {
-    constructor() {
+    constructor(container: Element) {
+        this.container = container;
     }
 
-    linkedList: listNode[] = [
+    linkedList: ListNode[] = [
         {id: 1, value: 10},
         {id: 2, value: 20},
         {id: 3, value: 30},
@@ -18,27 +19,29 @@ export class LinkedListModule implements DSAModule {
 
     name: string = 'Linked List'
 
+    container: Element;
+
      buttons: DSAButton[] = [
          {label: "Add Node", action: this.addNode.bind(this)},
          {label: "Delete Node", action: this.deleteNode.bind(this)},
          {label: "Reverse List", action: this.reverseList.bind(this)}
     ];
 
-    render = (container: Element): void => {
-        d3.select(container).select('svg').remove();
-        const t = d3.transition()
-            .duration(750);
+    render = (): void => {
+        d3.select(this.container).select('svg').remove();
 
         const nodeWidth: number = 120;
         const nodeHeight: number = 60;
         const spacing: number = 150;
-        const totalWidth: number = this.linkedList.length * (nodeWidth + spacing) - spacing;
+        const totalWidth: number = this.container.clientWidth;
+        const totalHeight: number = this.container.clientHeight
+        const leftMargin: number = 50;
 
-        const svg = d3.select(container)
+        const svg = d3.select(this.container)
             .append('svg')
             .attr('width', totalWidth)
-            .attr('height', container.clientHeight)
-            .attr('viewBox', `0 0 ${this.linkedList.length * spacing} 100`)
+            .attr('height', this.container.clientHeight)
+            .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
             .attr('preserveAspectRatio', 'xMidYMid meet');
 
         svg.append('defs').append('marker')
@@ -57,8 +60,8 @@ export class LinkedListModule implements DSAModule {
             .data(this.linkedList)
             .enter()
             .append('rect')
-            .attr('x', (d, i) => i * spacing + 10)
-            .attr('y', 20)
+            .attr('x', (d, i) => (i * spacing + 10) + leftMargin)
+            .attr('y', totalHeight / 2)
             .attr('width', nodeWidth)
             .attr('height', nodeHeight)
             .attr('fill', 'whitesmoke')
@@ -69,8 +72,8 @@ export class LinkedListModule implements DSAModule {
             .data(this.linkedList)
             .enter()
             .append('text')
-            .attr('x', (d, i) => i * spacing + 10 + nodeWidth / 2)
-            .attr('y', 20 + nodeHeight / 2)
+            .attr('x', (d, i) => i * spacing + 10 + nodeWidth / 2 + leftMargin)
+            .attr('y', totalHeight / 2 + nodeHeight / 2)
             .attr('text-anchor', 'middle')
             .attr('dominant-baseline', 'middle')
             .text(d => d.value)
@@ -79,10 +82,10 @@ export class LinkedListModule implements DSAModule {
             .style('font-size', '16px');
 
         for (let i = 0; i < this.linkedList.length - 1; i++) {
-            const x1: number = i * spacing + 10 + nodeWidth;
-            const y1: number = 20 + nodeHeight/2;
+            const x1: number = i * spacing + 10 + nodeWidth + leftMargin;
+            const y1: number = totalHeight / 2 + nodeHeight/2;
 
-            const x2: number = (i+1) * spacing + 10;
+            const x2: number = (i+1) * spacing + 10 + leftMargin;
             const y2: number = y1;
 
             svg.append('line')
@@ -99,8 +102,8 @@ export class LinkedListModule implements DSAModule {
     addNode(): any {
         let length = this.linkedList.length;
         if (length < 8 && length > 0) {
-            const lastNode: listNode = this.linkedList.slice(-1)[0];
-            const newNode: listNode = {
+            const lastNode: ListNode = this.linkedList.slice(-1)[0];
+            const newNode: ListNode = {
                 id: lastNode.id + 1,
                 value: lastNode.value + 10
             }
@@ -108,23 +111,26 @@ export class LinkedListModule implements DSAModule {
             this.linkedList.push(newNode);
         }
         if (length == 0 ) {
-            const newNode: listNode = {
+            const newNode: ListNode = {
                 id: 1,
                 value: 10
             }
 
             this.linkedList.push(newNode);
         }
+        this.render();
     }
 
     deleteNode(): any {
         if (this.linkedList.length > 0) {
           this.linkedList.pop();
         }
+        this.render();
     }
 
     reverseList(): any {
         this.linkedList.reverse();
+        this.render()
     }
 }
 
